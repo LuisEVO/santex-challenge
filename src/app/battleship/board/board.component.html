@@ -1,0 +1,11 @@
+<ng-container *ngFor="let row of board?.matrix">
+  <div
+    *ngFor="let col of row; let colIndex = index"
+    [class]="!!col.ship ? (col.ship | truthyKeysToString) + ' ship' : ''"
+    [class.cell]="!!col.cell"
+    [class.clickable]="isOpponent && !!col.cell"
+
+    (click)="cellHandler(col)">
+    {{ col.value }}
+  </div>
+</ng-container>

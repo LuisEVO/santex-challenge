@@ -1,0 +1,63 @@
+$squareSize: 20px;
+$squareBorder: 1px solid;
+
+:host {
+  display: grid;
+  gap: 2px;
+  width: max-content;
+
+  > div {
+    width: $squareSize;
+    height: $squareSize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.clickable {
+      cursor: pointer;
+    }
+
+    &.clickable:hover {
+      background-color: #f5f5f5;
+    }
+
+    &.clickable:active {
+      opacity: .7;
+    }
+
+    &.cell {
+      border: 1px solid lightgray;
+    }
+
+    &.ship {
+      background-color: lightcyan;
+      border-color: #607d8b !important;
+
+      &.horizontal {
+        border-left: unset;
+        border-right: unset;
+
+        &.start {
+          border-left: $squareBorder;
+        }
+
+        &.end {
+          border-right: $squareBorder;
+        }
+      }
+
+      &:not(.horizontal) {
+        border-top: unset;
+        border-bottom: unset;
+
+        &.start {
+          border-top: $squareBorder;
+        }
+
+        &.end {
+          border-bottom: $squareBorder;
+        }
+      }
+    }
+  }
+}
