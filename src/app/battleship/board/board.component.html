@@ -1,15 +1,15 @@
-<ng-container *ngFor="let cell of board?.cells?.values()">
+<ng-container *ngFor="let cell of cells">
   <div
     [ngClass]="[
-      !isOpponent && !!cell.ship ? (cell.ship | truthyKeysToString) + ' ship' : '',
-      !!cell.ship && cell.ship.status === 'destroyed' ? (cell.ship | truthyKeysToString) : '',
-      cell?.ship?.status || '',
+      showShips && !!cell.ship ? cell.ship.classes : '',
+      cell.ship?.status === 'destroyed' ? cell.ship?.classes : '',
+      cell.ship?.status || ''
     ]"
     [class.cell]="cell.isClickable"
-    [class.clickable]="isOpponent && !cell.isClickable"
+    [class.clickable]="!disabled && cell.isClickable"
     [class.touched]="cell.isTouched"
-
-    (click)="attack(cell)">
+    (click)="attack.emit(cell)"
+  >
     {{ cell.title }}
   </div>
 </ng-container>

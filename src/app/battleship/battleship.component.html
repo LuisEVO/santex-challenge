@@ -1,8 +1,15 @@
 <p>battleship works!</p>
 
 <div class="game">
-
-  <app-board [dimention]="10"/>
-  <app-board [dimention]="10" [isOpponent]="true"/>
-
+  <app-board
+    [board]="battleship.user.board"
+    [showShips]="true"
+    [disabled]="true"
+  />
+  <app-board
+    [board]="battleship.computer.board"
+    [showShips]="false"
+    [disabled]="!battleship.user.hasActiveTurn"
+    (attack)="battleship.user.askOpponent($event)"
+  />
 </div>

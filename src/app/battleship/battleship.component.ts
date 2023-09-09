@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BoardComponent } from './board/board.component';
+import { Battleship } from './models/battleship.model';
 
 @Component({
   selector: 'app-battleship',
@@ -10,7 +11,11 @@ import { BoardComponent } from './board/board.component';
   styleUrls: ['./battleship.component.scss']
 })
 export default class BattleshipComponent {
+  battleship: Battleship;
 
+  constructor() {
+    this.battleship = new Battleship();
+  }
 
 
 }
