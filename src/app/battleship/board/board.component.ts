@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Board, BoardItem } from './board';
 import { validateNumberToLetter } from 'src/app/utils/number-to-letter.util';
@@ -21,6 +21,7 @@ function validateDimention(value: number): number {
   imports: [CommonModule, TruthyKeysToStringPipe],
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BoardComponent implements OnInit {
   @Input({ required: true, transform: validateDimention }) dimention!: number;
