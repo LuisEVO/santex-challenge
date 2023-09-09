@@ -2,18 +2,18 @@ import { numberToLetter } from 'src/app/utils/number-to-letter.util';
 import { randomBoolean } from 'src/app/utils/random-boolean';
 import { v4 as uuid } from 'uuid';
 
-export interface BoardItem {
+export interface BoardCell {
   code: string;
-  value: string;
-  cell?: {
-    state: undefined | 'impact' | 'destroyed' | 'failed';
-  };
+  title: string;
+  isClickable: boolean;
+  isTouched: boolean;
   ship?: {
     // TODO: optimize this id attr
     id: string;
     start: boolean;
     end: boolean;
     horizontal: boolean;
+    status?: 'impacted' | 'destroyed'
   };
 }
 
@@ -35,46 +35,21 @@ class Ship {
 }
 export class Board {
   private aditionalRowCols = 1;
-  // public matrix: BoardItem[][] = [];
   public internalDimention: number;
   public ships: Ship[] = [];
-  public matrix: Map<string, BoardItem> = new Map([]);
+  public cells: Map<string, BoardCell> = new Map([]);
 
   constructor(public dimention: number) {
     this.internalDimention = this.dimention + this.aditionalRowCols;
-    this.matrix = this.buildMatrix();
+    this.cells = this.buildMatrix();
   }
 
-  /*
-  buildMatrix(): BoardItem[][] {
-    return Array.from({ length: this.internalDimention }, (_, rowIndex) => {
-      return Array.from({ length: this.internalDimention }, (_, colIndex) => {
-        const value =
-          rowIndex === 0
-            ? colIndex > 0
-              ? colIndex
-              : ''
-            : colIndex === 0
-            ? numberToLetter(rowIndex)
-            : '';
-
-        return {
-          code: `${rowIndex}:${colIndex}`,
-          value,
-          cell: !!(rowIndex && colIndex) ? {
-            state: undefined
-          } : undefined,
-        } as BoardItem;
-      });
-    });
-  } */
-
-  buildMatrix(): Map<string, BoardItem> {
-    const matrix: Map<string, BoardItem> = new Map([]);
+  buildMatrix(): Map<string, BoardCell> {
+    const matrix: Map<string, BoardCell> = new Map([]);
 
     Array.from({ length: this.internalDimention }, (_, rowIndex) => {
       return Array.from({ length: this.internalDimention }, (_, colIndex) => {
-        const value =
+        const title =
           rowIndex === 0
             ? colIndex > 0
               ? colIndex
@@ -85,13 +60,10 @@ export class Board {
 
         const item = {
           code: `${rowIndex}:${colIndex}`,
-          value,
-          cell: !!(rowIndex && colIndex)
-            ? {
-                state: undefined,
-              }
-            : undefined,
-        } as BoardItem;
+          title,
+          isClickable: !!(rowIndex && colIndex),
+          isTouched: false
+        } as BoardCell;
 
         matrix.set(`${rowIndex}:${colIndex}`, item);
       });
@@ -99,39 +71,6 @@ export class Board {
 
     return matrix;
   }
-
-  /*   addShip(size: number, isHorizontal = false): void {
-    const ship = new Ship(uuid());
-    const rowOrCol = Math.ceil(Math.random() * this.dimention);
-    const startRowOrCol = Math.ceil(Math.random() * (this.dimention - size)) + this.aditionalRowCols;
-    const locations = Array.from({ length: size }, (_, i) => i + startRowOrCol);
-
-    const overlaps: boolean = locations
-      .map((location) =>
-        isHorizontal
-          ? !!this.matrix[rowOrCol][location].ship
-          : !!this.matrix[location][rowOrCol].ship
-      )
-      .some((overlap) => overlap);
-
-    if (overlaps) return this.addShip(size, isHorizontal);
-
-    locations.forEach(location => {
-      const config = {
-        id: ship.id,
-        start: location === startRowOrCol,
-        end: location === locations.at(-1),
-        horizontal: isHorizontal,
-      }
-      if (isHorizontal) {
-        this.matrix[rowOrCol][location].ship = config;
-        ship.addLocation(this.matrix[rowOrCol][location].code)
-      } else {
-        this.matrix[location][rowOrCol].ship = config;
-        ship.addLocation(this.matrix[location][rowOrCol].code)
-      }
-    })
-  } */
 
   addShip(size: number, isHorizontal = false): void {
     const ship = new Ship(uuid());
@@ -146,7 +85,7 @@ export class Board {
         const code = isHorizontal
           ? `${rowOrCol}:${location}`
           : `${location}:${rowOrCol}`;
-        !!this.matrix.get(code)!.ship;
+        return !!this.cells.get(code)!.ship;
       })
       .some((overlap) => overlap);
 
@@ -162,31 +101,38 @@ export class Board {
       const code = isHorizontal
       ? `${rowOrCol}:${location}`
       : `${location}:${rowOrCol}`;
-      this.matrix.get(code)!.ship = config;
+      this.cells.get(code)!.ship = config;
       ship.addLocation(code);
     });
+
+    this.ships.push(ship);
   }
 
   addBulkShips(sizes: number[]) {
     sizes.forEach((size) => this.addShip(size, randomBoolean()));
   }
 
-  touchCell(col: BoardItem) {
-   /*  col.cell!.state = col.ship ? 'impact' : 'failed';
+  touchCell(cell: BoardCell) {
+    if (!cell.isClickable) return;
+    cell!.isTouched = true;
 
-    if (col.ship) {
-      const shipId = col.ship.id;
-      const shipCols: BoardItem[] = [];
+    if (cell.ship) {
+      const shipId = cell.ship.id;
+      console.log(shipId);
+      console.log(this.ships);
 
-      this.matrix.forEach((row) => {
-        shipCols.push(
-          ...row.filter((col) => col.ship && col.ship.id === shipId)
-        );
-      });
+      const ship = this.ships.find(ship => ship.id === shipId)
+      console.log(ship);
 
-      const isDestroyed = shipCols.every((col) => col.cell!.state === 'impact');
-      if (isDestroyed)
-        shipCols.forEach((col) => (col.cell!.state = 'destroyed'));
-    } */
+      const location = ship?.locations.find(location => location.code === cell.code)
+      console.log(location);
+
+      location!.isImpacted = true;
+      cell.ship.status = 'impacted';
+
+      if (ship?.isDestroyed) {
+        ship?.locations.forEach(location => this.cells.get(location!.code)!.ship!.status = 'destroyed')
+      }
+    }
   }
 }

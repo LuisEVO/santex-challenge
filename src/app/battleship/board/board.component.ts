@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Board, BoardItem } from './board';
+import { Board, BoardCell } from './board';
 import { validateNumberToLetter } from 'src/app/utils/number-to-letter.util';
 import { TruthyKeysToStringPipe } from 'src/app/pipes/truthy-keys-to-string.pipe';
 import { SHIPS } from '../constants/ships.constants';
@@ -36,12 +36,9 @@ export class BoardComponent implements OnInit {
     this.render.setStyle(this.elementRef.nativeElement, 'grid-template-columns', `repeat(${this.board.internalDimention}, 1fr)`)
   }
 
-  /*
-  cellHandler(col: BoardItem) {
-    if (!this.isOpponent || !col.cell) return;
-    col.cell.state = col.ship ? 'impact' : 'failed';
-    console.log(col);
+  attack(cell: BoardCell) {
+    if (!this.isOpponent) return;
+    this.board?.touchCell(cell)
   }
-  */
 
 }

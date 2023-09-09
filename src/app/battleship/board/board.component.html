@@ -1,29 +1,15 @@
-<!-- <ng-container *ngFor="let row of board?.matrix">
+<ng-container *ngFor="let cell of board?.cells?.values()">
   <div
-    *ngFor="let col of row; let colIndex = index"
     [ngClass]="[
-      !!col.ship ? (col.ship | truthyKeysToString) + ' ship' : '',
-      col.cell?.state || ''
+      !isOpponent && !!cell.ship ? (cell.ship | truthyKeysToString) + ' ship' : '',
+      !!cell.ship && cell.ship.status === 'destroyed' ? (cell.ship | truthyKeysToString) : '',
+      cell?.ship?.status || '',
     ]"
-    [class.cell]="!!col.cell"
-    [class.clickable]="isOpponent && !!col.cell"
+    [class.cell]="cell.isClickable"
+    [class.clickable]="isOpponent && !cell.isClickable"
+    [class.touched]="cell.isTouched"
 
-    (click)="board?.touchCell(col)">
-    {{ col.value }}
-  </div>
-</ng-container> -->
-
-<ng-container *ngFor="let row of board?.matrix?.entries()">
-  <div
-    *ngIf="row[1] as col"
-    [ngClass]="[
-      !!col.ship ? (col.ship | truthyKeysToString) + ' ship' : '',
-      col.cell?.state || ''
-    ]"
-    [class.cell]="!!col.cell"
-    [class.clickable]="isOpponent && !!col.cell"
-
-    (click)="board?.touchCell(col)">
-    {{ col.value }}
+    (click)="attack(cell)">
+    {{ cell.title }}
   </div>
 </ng-container>

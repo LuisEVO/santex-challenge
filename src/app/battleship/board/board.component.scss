@@ -13,6 +13,11 @@ $squareBorder: 1px solid;
     align-items: center;
     justify-content: center;
 
+    &.touched {
+      background-color: blue;
+    }
+
+
     &.clickable {
       cursor: pointer;
     }
@@ -58,6 +63,44 @@ $squareBorder: 1px solid;
           border-bottom: $squareBorder;
         }
       }
+
+
+    }
+
+    &.impacted {
+      background-color: yellow;
+    }
+
+    &.destroyed {
+      background-color: #FFCDD2;
+      border-color: #B71C1C;
+
+      &.horizontal {
+        border-left: unset;
+        border-right: unset;
+
+        &.start {
+          border-left: $squareBorder;
+        }
+
+        &.end {
+          border-right: $squareBorder;
+        }
+      }
+
+      &:not(.horizontal) {
+        border-top: unset;
+        border-bottom: unset;
+
+        &.start {
+          border-top: $squareBorder;
+        }
+
+        &.end {
+          border-bottom: $squareBorder;
+        }
+      }
+
     }
   }
 }
