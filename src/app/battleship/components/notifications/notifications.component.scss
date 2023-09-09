@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  overflow: auto;
+  height: 20px;
+
+  p {
+    margin: unset;
+  }
+
+  @media (min-width: 576px) {
+    height: 272px;
+  }
+
+  @media (min-width: 768px) {
+  }
+
+  @media (min-width: 992px) {
+  }
+
+  @media (min-width: 1200px) {
+  }
+
+  @media (min-width: 1400px) {
+  }
+}

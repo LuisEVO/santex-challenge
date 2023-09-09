@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Board, BoardCell } from '../models/board.model';
+import { Board, BoardCell } from '../../models/board.model';
 import { TruthyKeysToStringPipe } from 'src/app/pipes/truthy-keys-to-string.pipe';
 
 @Component({

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BattleshipComponent } from './battleship.component';
+import { BattleshipComponent } from './battleship.layout';
 
 describe('BattleshipComponent', () => {
   let component: BattleshipComponent;

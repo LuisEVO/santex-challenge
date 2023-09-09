@@ -1,0 +1,26 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  header {
+    text-align: center;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  }
+
+  @media (min-width: 576px) {
+    gap: 3rem;
+  }
+
+  @media (min-width: 768px) {
+  }
+
+  @media (min-width: 992px) {
+  }
+
+  @media (min-width: 1200px) {
+  }
+
+  @media (min-width: 1400px) {
+  }
+}

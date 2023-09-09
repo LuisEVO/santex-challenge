@@ -1,0 +1,24 @@
+
+<app-board
+  class="user-board"
+  [board]="battleship.user.board"
+  [showShips]="true"
+  [disabled]="true"
+/>
+<app-board
+  class="computer-board"
+  [board]="battleship.computer.board"
+  [showShips]="false"
+  [disabled]="!battleship.user.hasActiveTurn"
+  (attack)="battleship.user.attack($event)"
+/>
+
+<app-notifications
+  class="computer-user"
+  [subject]="battleship.user.notifications"
+></app-notifications>
+
+<app-notifications
+  class="computer-notifications"
+  [subject]="battleship.computer.notifications"
+></app-notifications>

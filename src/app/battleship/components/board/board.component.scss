@@ -4,8 +4,9 @@ $squareBorderRadius: 4px;
 
 :host {
   display: grid;
-  gap: 2px;
+  gap: 3px;
   width: max-content;
+  height: max-content;
 
   > div {
     width: $squareSize;
@@ -74,12 +75,16 @@ $squareBorderRadius: 4px;
     }
 
     &.impacted {
-      background-color: yellow;
+      background-color: #FFEB3B;
+    }
+
+    &.impacted::after {
+      content: "💢";
     }
 
     &.destroyed {
       background-color: #ffcdd2;
-      border-color: #b71c1c;
+      border-color: #b71c1c !important;
 
       &.horizontal {
         border-left: unset;
@@ -106,6 +111,10 @@ $squareBorderRadius: 4px;
           border-bottom: $squareBorder;
         }
       }
+    }
+
+    &.destroyed::after {
+      content: "💥";
     }
   }
 }

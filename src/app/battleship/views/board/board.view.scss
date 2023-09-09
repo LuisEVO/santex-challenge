@@ -1,0 +1,39 @@
+:host {
+  display: grid;
+  grid-template-areas: "a" "b" "c" "d";
+  gap: 2rem;
+  justify-content: center;
+
+  .user-notifications {
+    grid-area: a;
+  }
+
+  .user-board {
+    grid-area: b;
+  }
+
+  .computer-board {
+    grid-area: c;
+  }
+
+  .computer-notifications {
+    grid-area: d;
+  }
+
+  @media (min-width: 576px) {
+    grid-template-areas: "b c" "a d";
+  }
+
+  @media (min-width: 768px) {
+  }
+
+  @media (min-width: 992px) {
+    grid-template-areas: "a b c d";
+  }
+
+  @media (min-width: 1200px) {
+  }
+
+  @media (min-width: 1400px) {
+  }
+}

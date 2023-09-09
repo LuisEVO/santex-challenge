@@ -5,6 +5,7 @@ import { truthyKeysToString } from 'src/app/utils/truthy-keys-to-string.util';
 import { Subject } from 'rxjs';
 
 export interface BoardCell {
+  displayCode: string;
   coordinate: string;
   title: string;
   isClickable: boolean;
@@ -41,6 +42,7 @@ export class Board {
             : '';
 
         const cell: BoardCell = {
+          displayCode: !!(rowIndex && colIndex) ? `${numberToLetter(rowIndex)}:${colIndex}` : '',
           coordinate: `${rowIndex}:${colIndex}`,
           title,
           isClickable: !!(rowIndex && colIndex),
@@ -111,7 +113,13 @@ export class Board {
 
   canTouchCell(coordinate: string) {
     const cell = this.cells.get(coordinate)!;
-    return cell.isClickable || !cell.isTouched;
+    if (cell.isClickable && !cell.isTouched) {
+
+    } else {
+      console.log(cell.coordinate);
+
+    }
+    return cell.isClickable && !cell.isTouched;
   }
 
   touchCell(coordinate: string) {

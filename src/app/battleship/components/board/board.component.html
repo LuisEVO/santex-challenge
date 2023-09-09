@@ -6,7 +6,7 @@
       cell.ship?.status || ''
     ]"
     [class.cell]="cell.isClickable"
-    [class.clickable]="!disabled && cell.isClickable"
+    [class.clickable]="!disabled && cell.isClickable && !cell.isTouched"
     [class.touched]="cell.isTouched"
     (click)="attack.emit(cell)"
   >
