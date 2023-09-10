@@ -1,3 +1,5 @@
+@import "breakpoint";
+
 :host {
   display: grid;
   grid-template-areas: "a" "b" "c" "d";
@@ -20,20 +22,11 @@
     grid-area: d;
   }
 
-  @media (min-width: 576px) {
+  @include breakpoint(sm) {
     grid-template-areas: "b c" "a d";
   }
 
-  @media (min-width: 768px) {
-  }
-
-  @media (min-width: 992px) {
+  @include breakpoint(lg) {
     grid-template-areas: "a b c d";
-  }
-
-  @media (min-width: 1200px) {
-  }
-
-  @media (min-width: 1400px) {
   }
 }

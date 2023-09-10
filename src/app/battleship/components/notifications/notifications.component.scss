@@ -1,3 +1,5 @@
+@import "breakpoint";
+
 :host {
   display: block;
   overflow: auto;
@@ -7,19 +9,7 @@
     margin: unset;
   }
 
-  @media (min-width: 576px) {
+  @include breakpoint(sm) {
     height: 272px;
-  }
-
-  @media (min-width: 768px) {
-  }
-
-  @media (min-width: 992px) {
-  }
-
-  @media (min-width: 1200px) {
-  }
-
-  @media (min-width: 1400px) {
   }
 }
