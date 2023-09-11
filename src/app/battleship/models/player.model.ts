@@ -11,9 +11,12 @@ export abstract class Player {
   ships: Ship[] = [];
   attacks: AttackRecord[] = [];
 
+  onHasActiveTurn: Subject<void> = new Subject();
+
   constructor(
     private dimentions: number,
     private shipSizes: number[],
+    public hasActiveTurn: boolean,
     public maxTurns: number,
   ) {
     this.setBoard();
@@ -62,21 +65,24 @@ export abstract class Player {
       });
     }
 
-    return new AttackRecord(cell.coordinate, result);
+    return new AttackRecord(cell.displayCode, result);
   }
 
   trackAttack(attack: AttackRecord) {
     this.attacks.unshift(attack);
   }
 
-  checkIfGameFinish(): 'win' | 'lost' | undefined {
-    if (this.ships.every(ship => ship.isDestroyed)) {
-      return 'win'
-    } else if (this.attacks.length === this.maxTurns) {
-      return 'lost'
-    }
+  allShipsAreDestroyed() {
+    return this.ships.every(ship => ship.isDestroyed);
+  }
 
-    return;
+  hasTurns() {
+    return this.attacks.length < this.maxTurns;
+  }
+
+  toggleTurn() {
+    this.hasActiveTurn = !this.hasActiveTurn;
+    if(this.hasActiveTurn) this.onHasActiveTurn.next()
   }
 }
 

@@ -1,9 +1,9 @@
 export type AttackResult = 'failed' | 'impacted' | 'destroyed';
 
 export const AttackResultMap: Map<AttackResult, string> = new Map([
-  ['failed', 'Falló el ataque'],
-  ['impacted', 'Dió en el barco'],
-  ['destroyed', 'Destruyó el barco'],
+  ['failed', 'No ship was hit'],
+  ['impacted', 'A ship was hit'],
+  ['destroyed', 'A ship was destroyed'],
 ]);
 export class AttackRecord {
   constructor(public coordinate: string, public result: AttackResult) {}

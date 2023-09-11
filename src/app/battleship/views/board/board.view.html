@@ -1,8 +1,4 @@
-
-<app-attack-log
-  class="user-attacks"
-  [attacks]="battleship.user.attacks"
-/>
+<app-attack-log class="user-attacks" [attacks]="battleship.user.attacks" />
 
 <app-board
   class="user-board"
@@ -20,10 +16,13 @@
   class="computer-board"
   [board]="battleship.computer.board"
   [showShips]="false"
-  (attack)="battleship.play(battleship.user, battleship.computer, $event)"
+  [disabled]="!battleship.user.hasActiveTurn"
+  (attack)="battleship.playUser($event)"
 />
 
-<!--
-  [disabled]="!battleship.user.hasActiveTurn"
-
- -->
+<app-dialog
+  *ngIf="gameOverInfo"
+  [title]="gameOverInfo.title"
+  [action]="gameOverInfo.action"
+  (actionHandler)="initialize()"
+/>

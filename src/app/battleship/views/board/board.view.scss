@@ -5,6 +5,7 @@
   grid-template-areas: "a" "b" "c" "d";
   gap: 2rem;
   justify-content: center;
+  position: relative;
 
   .user-attaks {
     grid-area: d;
