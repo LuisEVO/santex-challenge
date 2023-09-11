@@ -11,16 +11,10 @@ export abstract class Player {
   ships: Ship[] = [];
   attacks: AttackRecord[] = [];
 
-  onAttack: Subject<BoardCell> = new Subject();
-  afterSetAttackOnBoard: Subject<AttackRecord> = new Subject();
-
-  onFinish: Subject<'win' | 'lost'> = new Subject()
-
   constructor(
     private dimentions: number,
     private shipSizes: number[],
     public maxTurns: number,
-    public hasActiveTurn: boolean
   ) {
     this.setBoard();
     this.organizeShips();
@@ -44,14 +38,11 @@ export abstract class Player {
     this.organizeShips();
   }
 
-  attack(cell: BoardCell) {
-    if (this.attacks.length >= this.maxTurns) return;
-    if (!this.hasActiveTurn) return;
-    this.onAttack.next(cell);
+  canAttackCell(cell: BoardCell) {
+    return (this.board.canTouchCell(cell.coordinate));
   }
 
   setAttackOnBoard(cell: BoardCell) {
-    if (!this.board.canTouchCell(cell.coordinate)) return;
     this.board.touchCell(cell.coordinate);
 
     let result: AttackResult = 'failed';
@@ -71,23 +62,21 @@ export abstract class Player {
       });
     }
 
-    this.afterSetAttackOnBoard.next(new AttackRecord(cell.coordinate, result));
-  }
-
-  setTurn(turn: boolean) {
-    this.hasActiveTurn = turn;
+    return new AttackRecord(cell.coordinate, result);
   }
 
   trackAttack(attack: AttackRecord) {
     this.attacks.unshift(attack);
   }
 
-  checkIfGameFinish() {
+  checkIfGameFinish(): 'win' | 'lost' | undefined {
     if (this.ships.every(ship => ship.isDestroyed)) {
-      this.onFinish.next('win')
+      return 'win'
     } else if (this.attacks.length === this.maxTurns) {
-      this.onFinish.next('lost')
+      return 'lost'
     }
+
+    return;
   }
 }
 

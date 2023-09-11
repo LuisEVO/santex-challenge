@@ -20,8 +20,10 @@
   class="computer-board"
   [board]="battleship.computer.board"
   [showShips]="false"
-  [disabled]="!battleship.user.hasActiveTurn"
-  (attack)="battleship.user.attack($event)"
+  (attack)="battleship.play(battleship.user, battleship.computer, $event)"
 />
 
+<!--
+  [disabled]="!battleship.user.hasActiveTurn"
 
+ -->

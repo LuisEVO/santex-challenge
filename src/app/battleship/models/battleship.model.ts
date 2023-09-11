@@ -5,16 +5,16 @@ export class Battleship {
   user: UserPlayer;
   computer: ComputerPlayer;
   gameOver: Subject<boolean> = new Subject();
-  // AAA: Subject<[Player, Player, BoardCell]> = new Subject();
+  private playTurn: Subject<[Player, Player, BoardCell]> = new Subject();
 
   constructor(
     dimentions: number,
     shipSizes: number[],
     maxTurns: number = dimentions ** 2
   ) {
-    this.user = new UserPlayer(dimentions, shipSizes, maxTurns, true);
-    this.computer = new ComputerPlayer(dimentions, shipSizes, maxTurns, false);
-
+    this.user = new UserPlayer(dimentions, shipSizes, maxTurns);
+    this.computer = new ComputerPlayer(dimentions, shipSizes, maxTurns);
+/*
     this.user.onAttack.subscribe((cell) => {
       this.computer.setAttackOnBoard(cell);
     });
@@ -51,6 +51,23 @@ export class Battleship {
     this.computer.onFinish.subscribe((res) => {
       console.log(`COMPUTER`, res);
       this.gameOver.next(true);
-    });
+    }); */
+
+    this.playTurn
+    .pipe(
+      map(([current, opponent, cell]) => {
+        if (opponent.canAttackCell(cell)) {
+          const attackRecord = opponent.setAttackOnBoard(cell)
+          current.trackAttack(attackRecord)
+          current.checkIfGameFinish()
+        }
+      }),
+    )
+    .subscribe(console.log);
+
+  }
+
+  play(player: Player, opponent: Player, cell: BoardCell) {
+    this.playTurn.next([player, opponent, cell])
   }
 }
