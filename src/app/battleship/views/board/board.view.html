@@ -1,10 +1,21 @@
 
+<app-attack-log
+  class="user-attacks"
+  [attacks]="battleship.user.attacks"
+/>
+
 <app-board
   class="user-board"
   [board]="battleship.user.board"
   [showShips]="true"
   [disabled]="true"
 />
+
+<app-attack-log
+  class="computer-attacks"
+  [attacks]="battleship.computer.attacks"
+/>
+
 <app-board
   class="computer-board"
   [board]="battleship.computer.board"
@@ -13,12 +24,4 @@
   (attack)="battleship.user.attack($event)"
 />
 
-<app-notifications
-  class="user-notifications"
-  [subject]="battleship.user.notifications"
-></app-notifications>
 
-<app-notifications
-  class="computer-notifications"
-  [subject]="battleship.computer.notifications"
-></app-notifications>

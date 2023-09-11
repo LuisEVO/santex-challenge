@@ -1,0 +1,13 @@
+.failed {
+  color: #03A9F4;
+}
+.impacted {
+  color: #FFC107;
+}
+.destroyed {
+  color: #b71c1c;
+}
+:not(.last) {
+  opacity: .4;
+  transition: opacity .3s ease-in;
+}
